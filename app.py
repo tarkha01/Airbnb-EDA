@@ -8,7 +8,7 @@ import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
-# ── Data Loading & Preprocessing ──────────────────────────────────────────────
+#  Data Loading & Preprocessing
 df_train = pd.read_csv(r"c:\Users\rozii\Desktop\Airnb\train_users_2.csv")
 df_test  = pd.read_csv(r"c:\Users\rozii\Desktop\Airnb\test_users.csv")
 
@@ -55,7 +55,7 @@ AIRBNB_LIGHT = "#F7F7F7"
 
 YEARS = sorted(df_all["acc_year"].dropna().unique().astype(int).tolist())
 
-# ── App Initialisation ─────────────────────────────────────────────────────────
+# App Initialisation
 app = dash.Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME],
@@ -64,7 +64,7 @@ app = dash.Dash(
 )
 app.title = "Airbnb User Analytics"
 
-# ── Reusable helpers ───────────────────────────────────────────────────────────
+# Reusable helpers 
 def kpi_card(icon, value, label, color=AIRBNB_RED):
     return dbc.Card(
         dbc.CardBody([
@@ -95,7 +95,7 @@ def plot_card(fig, title="", height=400):
     ], className="shadow-sm border-0 mb-4")
 
 
-# ── NAV BAR ────────────────────────────────────────────────────────────────────
+# NAV BAR 
 navbar = dbc.Navbar(
     dbc.Container([
         html.A(
@@ -121,7 +121,7 @@ navbar = dbc.Navbar(
     style={"borderBottom": f"3px solid {AIRBNB_RED}"},
 )
 
-# ── PAGE 1 : OVERVIEW ─────────────────────────────────────────────────────────
+# PAGE 1 : OVERVIEW 
 total_users       = len(df_train)
 converted         = (df_train["country_destination"] != "NDF").sum()
 conversion_rate   = f"{100 * converted / total_users:.1f}%"
@@ -203,7 +203,7 @@ page_overview = html.Div([
     ], fluid=True),
 ])
 
-# ── PAGE 2 : DEMOGRAPHICS ─────────────────────────────────────────────────────
+# PAGE 2 : DEMOGRAPHICS
 page_demographics = html.Div([
     dbc.Container([
         html.Br(),
@@ -264,7 +264,7 @@ page_demographics = html.Div([
     ], fluid=True),
 ])
 
-# ── PAGE 3 : TRENDS ───────────────────────────────────────────────────────────
+# PAGE 3 : TRENDS
 page_trends = html.Div([
     dbc.Container([
         html.Br(),
@@ -327,7 +327,7 @@ page_trends = html.Div([
     ], fluid=True),
 ])
 
-# ── Main Layout ────────────────────────────────────────────────────────────────
+# Main Layout 
 app.layout = html.Div([
     dcc.Store(id="active-page", data="overview"),
     navbar,
@@ -336,7 +336,7 @@ app.layout = html.Div([
           "fontFamily": "'Segoe UI', sans-serif"})
 
 
-# ── CALLBACKS ─────────────────────────────────────────────────────────────────
+# CALLBACKS 
 
 # Page routing
 @app.callback(
@@ -474,6 +474,6 @@ def update_trends(year_sel, breakdown, dest_query):
     return fm, fl, fd, fc
 
 
-# ── Run ────────────────────────────────────────────────────────────────────────
+# Run
 if __name__ == "__main__":
     app.run(debug=True, port=8050)
